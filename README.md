@@ -45,3 +45,62 @@
 В качестве решения приложите SQL скрипт и скриншот диаграммы.
 
 Для написания и редактирования sql удобно использовать  специальный инструмент dbeaver.
+
+```sql
+--Сотрудники (Employees)
+
+CREATE TABLE employees (
+    employee_id SERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    salary DECIMAL(10, 2),
+    position VARCHAR(100),
+    hire_date DATE
+);
+
+--Отделения (Departments)
+
+CREATE TABLE departments (
+    department_id SERIAL PRIMARY KEY,
+    department_name VARCHAR(100),
+    type VARCHAR(100)
+);
+
+--Филиалы (Branches)
+
+CREATE TABLE branches (
+    branch_id SERIAL PRIMARY KEY,
+    address VARCHAR(255)
+);
+--Назначение сотрудника в отдел (Employee_Department):Эта таблица соединяет сотрудников с подразделениями.
+
+CREATE TABLE employee_departments (
+    employee_id INT REFERENCES employees(employee_id),
+    department_id INT REFERENCES departments(department_id),
+    PRIMARY KEY (employee_id, department_id)
+);
+
+--Расположение отдела в филиале (Department_Branch):Соединяет филиалы и подразделения.
+
+CREATE TABLE department_branches (
+    department_id INT REFERENCES departments(department_id),
+    branch_id INT REFERENCES branches(branch_id),
+    PRIMARY KEY (department_id, branch_id)
+);
+
+--Проекты (Projects)
+
+CREATE TABLE projects (
+    project_id SERIAL PRIMARY KEY,
+    project_name VARCHAR(255) NOT NULL
+);
+
+--Участие сотрудников в проекте (Employee_Project)
+
+CREATE TABLE employee_projects (
+    employee_id INT REFERENCES employees(employee_id),
+    project_id INT REFERENCES projects(project_id),
+    PRIMARY KEY (employee_id, project_id)
+);
+```
+
+![Скриншот](https://github.com/karelinsf/project_db/blob/main/screen/shema1.png)
